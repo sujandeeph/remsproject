@@ -1,17 +1,23 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const userRoutes = require('./routes/userRoutes'); 
-const contactRoutes = require('./routes/contactRoutes'); 
-const rentalRoutes = require("./routes/rentalRoutes");
+
+const userRoutes = require('./routes/userRoutes');
+const propertyRoutes = require('./routes/propertyRoutes'); 
+const inputBuyRoutes = require('./routes/inputBuyRoutes.js');// add property routes
+
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
+// Static folder for property photos
+app.use('/uploads', express.static('uploads'));
+
 // Database Connection
-mongoose.connect('mongodb+srv://sujandeep70:myStrongPassword123@cluster0.afjj5jx.mongodb.net/signupdb?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected');
   })
@@ -20,9 +26,11 @@ mongoose.connect('mongodb+srv://sujandeep70:myStrongPassword123@cluster0.afjj5jx
   });
 
 // Use Routes
-app.use('/api/users', userRoutes); 
-app.use('/api/contact', contactRoutes);
-app.use("/api/rental", rentalRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/properties', propertyRoutes); 
+app.use('/api/inputbuy',inputBuyRoutes);
+ // add this lineinput
+
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

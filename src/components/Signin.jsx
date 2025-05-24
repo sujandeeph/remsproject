@@ -8,7 +8,7 @@ function Signin() {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
    const navigate = useNavigate();
   const [form, setForm] = useState({
-    username: '',
+    name: '',
     mobile: '',
     email: '',
   });
@@ -22,13 +22,13 @@ function Signin() {
 
   try {
     if (isNewUser) {
-      const res = await fetch('http://localhost:5000/api/users/signup', {
+      const res = await fetch('http://localhost:5000/api/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: form.username,
+          name: form.name,
           email: form.email,
           mobile: form.mobile,
         }),
@@ -83,8 +83,8 @@ function Signin() {
                 <label className="block text-gray-700">Username</label>
                 <input
                   type="text"
-                  name="username"
-                  value={form.username}
+                  name="name"
+                  value={form.name}
                   onChange={handleChange}
                   className="w-full p-2 border rounded"
                   required

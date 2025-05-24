@@ -40,11 +40,43 @@ const InputBuyPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form Data Submitted:', formData);
-    // handle backend submission here
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const payload = {
+    ...formData,
+    propertyDetails: {
+      img,
+      area,
+      pricePerSqft,
+      totalPrice,
+      location: place
+    }
   };
+
+  try {
+    const response = await fetch('http://localhost:5000/api/inputbuy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert('Form submitted successfully!');
+    } else {
+      alert(`Submission failed: ${result.message}`);
+    }
+
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    alert('An error occurred while submitting the form.');
+  }
+};
+
 
   if (!img) {
     return (

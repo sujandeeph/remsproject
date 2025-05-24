@@ -11,6 +11,12 @@ function Navbar() {
     
     navigate('/signin');
   };
+  const handlelogout=()=>{
+if(confirm('are u sure you want to log out')){
+   setIsLoggedIn(false);
+}
+  
+  }
   return (
     <div>
       <nav className="bg-gray-900 h-20  text-white shadow-lg">
@@ -29,7 +35,8 @@ function Navbar() {
           <Link to="/about" className="hover:text-blue-400 font-medium transition">About Us</Link>
          
           {isLoggedIn ? (
-            <span className="font-medium text-white">Log Out</span>
+            
+            <button onClick={handlelogout} className="hover:bg-red-400 bg-red-600 px-4 py-2 rounded-md text-white font-semibold">Log Out</button>
           ) : (
             <button
               onClick={handleLogin}
